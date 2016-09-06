@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Foxman by foxman-tools</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Foxman</h1>
+        <h2>flexiable mock server for frontend engineer</h2>
+        <a href="https://github.com/foxman-tools/foxman" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="foxman" class="anchor" href="#foxman" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>foxman</h1>
+
+<blockquote>
+<p>flexiable mock server for frontend engineer</p>
+</blockquote>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h1>
+
+<div class="highlight highlight-source-shell"><pre>$ npm install foxman -g</pre></div>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
+
+<p><strong>Step 1</strong>: create config file in your project folder, if not specified, <code>foxman.config.js</code> will be used</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>;
+<span class="pl-k">const</span> <span class="pl-c1">path</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>path<span class="pl-pds">'</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">PluginA</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./plugin.test<span class="pl-pds">'</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">mcss</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./foxman-mcss<span class="pl-pds">'</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">autoprefix</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>gulp-autoprefixer<span class="pl-pds">'</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">root</span> <span class="pl-k">=</span> <span class="pl-smi">path</span>.<span class="pl-c1">join</span>(<span class="pl-c1">__dirname</span>, <span class="pl-s"><span class="pl-pds">'</span>src<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>main<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>webapp<span class="pl-pds">'</span></span>);
+<span class="pl-c1">module</span>.<span class="pl-smi">exports</span> <span class="pl-k">=</span> {
+    root<span class="pl-k">:</span> root,
+    plugins<span class="pl-k">:</span> [
+        <span class="pl-k">new</span> <span class="pl-en">PluginA</span>({
+            option<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>optionValue<span class="pl-pds">'</span></span>
+        })
+    ],
+    preCompilers<span class="pl-k">:</span> [{
+        <span class="pl-c">/**</span>
+<span class="pl-c">         * [1] relative to root</span>
+<span class="pl-c">         * [2] absolute path starts with '/'</span>
+<span class="pl-c">         */</span>
+        test<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>src/mcss/**/*.mcss<span class="pl-pds">'</span></span>, <span class="pl-c">// String or Array</span>
+        <span class="pl-en">precompiler</span><span class="pl-k">:</span> <span class="pl-smi">dest</span> <span class="pl-k">=&gt;</span> [
+            <span class="pl-en">mcss</span>(),
+            <span class="pl-en">autoprefix</span>({
+                browsers<span class="pl-k">:</span> [ <span class="pl-s"><span class="pl-pds">'</span>Android &gt;= 2.3<span class="pl-pds">'</span></span>],
+                cascade<span class="pl-k">:</span> <span class="pl-c1">false</span>
+            }),
+            <span class="pl-en">dest</span>(<span class="pl-s"><span class="pl-pds">'</span>src/css/<span class="pl-pds">'</span></span>)
+        ]
+    }],
+    watch<span class="pl-k">:</span> {
+        <span class="pl-c">/**</span>
+<span class="pl-c">         * absolute</span>
+<span class="pl-c">         * <span class="pl-k">@type</span> {[type]}</span>
+<span class="pl-c">         */</span>
+    },
+    server<span class="pl-k">:</span> {
+        port<span class="pl-k">:</span> <span class="pl-c1">3000</span>,
+        viewRoot<span class="pl-k">:</span> <span class="pl-smi">path</span>.<span class="pl-en">resolve</span>(root, <span class="pl-s"><span class="pl-pds">'</span>WEB-INF<span class="pl-pds">'</span></span>),
+        syncData<span class="pl-k">:</span> <span class="pl-smi">path</span>.<span class="pl-en">resolve</span>(<span class="pl-c1">__dirname</span>, <span class="pl-s"><span class="pl-pds">'</span>mock<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>fakeData<span class="pl-pds">'</span></span>),
+        asyncData<span class="pl-k">:</span> <span class="pl-smi">path</span>.<span class="pl-en">resolve</span>(<span class="pl-c1">__dirname</span>, <span class="pl-s"><span class="pl-pds">'</span>mock<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>json<span class="pl-pds">'</span></span>),
+        static<span class="pl-k">:</span> [
+            <span class="pl-smi">path</span>.<span class="pl-en">resolve</span>(<span class="pl-c1">__dirname</span>, <span class="pl-s"><span class="pl-pds">'</span>static<span class="pl-pds">'</span></span>)
+        ]
+    }
+};</pre></div>
+
+<p><strong>Step 2</strong>: run <code>foxman</code></p>
+
+<div class="highlight highlight-source-shell"><pre>$ foxman</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/foxman-tools/foxman/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/foxman-tools/foxman/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/foxman-tools/foxman"></a> is maintained by <a href="https://github.com/foxman-tools">foxman-tools</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
